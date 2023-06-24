@@ -7,3 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+[v0.0.1]
+### Added
+- src/main.py: main menu
+- requirements.txt: textual
+- LICENSE
+- this file
+- gitignore
+- README.md: one line about game
+
+
+
