@@ -1,5 +1,5 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Input, Label, Button, Checkbox
+from textual.widgets import Input, Label, RadioButton, RadioSet, Button
 from textual.containers import Center, VerticalScroll
 
 class InputName(App):
@@ -16,21 +16,25 @@ class InputName(App):
 
 class CharacterSelection(App[None]):
     def compose(self) -> ComposeResult:
-            yield Center(Label('Please choose character:'))
-            with VerticalScroll():
-                yield Center(Checkbox('Warrior'))
-                yield Center(Checkbox('Vampire'))
-                yield Center(Checkbox('Witch'))
-                yield Center(Checkbox('Elf '))
-                yield Center(Checkbox('Druid'))
-                yield Center(Checkbox('Rogue'))
+        with VerticalScroll():
 
+            with RadioSet():
+                yield (RadioButton('Warrior'))
+                yield (RadioButton('Vampire'))
+                yield (RadioButton('Witch'))
+                yield (RadioButton('Elf '))
+                yield (RadioButton('Druid'))
+                yield (RadioButton('Rogue'))
+
+    def on_radio_set_changed(self, event: RadioSet.Changed) -> None:
+        self.exit(str(event.pressed.label))
+        
 username  = InputName()
 username = username.run()
 
 character = CharacterSelection()
-print(character.run())
-
+selection = character.run()
+print(selection)
 
 
 
