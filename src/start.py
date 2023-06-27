@@ -32,7 +32,21 @@ class InputName(App):
 
 
 class CharacterSelection(App[None]):
-    CSS_PATH = "style.css"
+    CSS = '''
+    VerticalScroll {
+    align: center middle;
+    }
+
+    Horizontal {
+        align: center middle;
+        height: auto;
+    }
+
+    RadioSet {
+        width: 45%;
+    }
+
+    '''
 
     def compose(self) -> ComposeResult:
         with VerticalScroll():
