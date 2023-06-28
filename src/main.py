@@ -21,13 +21,16 @@ logo ='''
 
 '''
 
-class MainMenu(App[str]):
+class MainMenu(App):
     def compose(self):
         yield Center(Label(logo))
         yield Center(Button('Start', id='start'))
         yield Center(Button('Settings', id='settings'))
         yield Center(Button('GitHub', id='github'))
         yield Center(Button('Exit', id='exit'))
+    
+    def on_mount(self) -> None:
+        self.screen.styles.background = "black"
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.exit(str(event.button.id))
