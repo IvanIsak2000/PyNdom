@@ -1,21 +1,28 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Input, Label, RadioButton, RadioSet, Button
+from textual.widgets import Input, Label, RadioButton, RadioSet, Button, Header
 from textual.containers import Center, VerticalScroll
 
-ork = '''⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣧⣄⣉⣉⣠⣼⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⡿⣿⣿⣿⣿⢿⣿⣿⣿⣿⡆⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⣼⣤⣤⣈⠙⠳⢄⣉⣋⡡⠞⠋⣁⣤⣤⣧⠀⠀⠀⠀⠀⠀⠀
-        ⠀⢲⣶⣤⣄⡀⢀⣿⣄⠙⠿⣿⣦⣤⡿⢿⣤⣴⣿⠿⠋⣠⣿⠀⢀⣠⣤⣶⡖⠀
-        ⠀⠀⠙⣿⠛⠇⢸⣿⣿⡟⠀⡄⢉⠉⢀⡀⠉⡉⢠⠀⢻⣿⣿⡇⠸⠛⣿⠋⠀⠀
-        ⠀⠀⠀⠘⣷⠀⢸⡏⠻⣿⣤⣤⠂⣠⣿⣿⣄⠑⣤⣤⣿⠟⢹⡇⠀⣾⠃⠀⠀⠀
-        ⠀⠀⠀⠀⠘⠀⢸⣿⡀⢀⠙⠻⢦⣌⣉⣉⣡⡴⠟⠋⡀⢀⣿⡇⠀⠃⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⢸⣿⣧⠈⠛⠂⠀⠉⠛⠛⠉⠀⠐⠛⠁⣼⣿⡇⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠸⣏⠀⣤⡶⠖⠛⠋⠉⠉⠙⠛⠲⢶⣤⠀⣹⠇⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣶⣿⣿⣿⣿⣿⣿⣶⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀
-        ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠛⠛⠛⠛⠉⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+from game.character_logos import *
+from game.texts import *
+
+CSS_for_characters = '''
+
+    #heal{
+        background: green;
+        }
+
+    #power{
+        background: red;
+        }
+
+    #energy{
+        background: yellow 60%;
+        }
+
+    #weapon{
+        background: blue; 
+        }
+
 '''
 
 class InputName(App):
@@ -38,12 +45,17 @@ class CharacterSelection(App[None]):
     }
 
     Horizontal {
+        width: 100;
+        height: 100%;
         align: center middle;
-        height: auto;
+
     }
 
     RadioSet {
-        width: 45%;
+        width: 100%;
+        align: center middle;
+
+
     }
 
     '''
@@ -54,33 +66,102 @@ class CharacterSelection(App[None]):
                 yield RadioButton('Warrior')
                 yield RadioButton('Vampire')
                 yield RadioButton('Ork')
-                yield RadioButton('Witch')
-                yield RadioButton('Elf')
-                yield RadioButton('Druid')
-                yield RadioButton('Rogue')
+                # yield RadioButton('Witch')
+                # yield RadioButton('Elf')
+                # yield RadioButton('Druid')
+                # yield RadioButton('Rogue')
 
     def on_radio_set_changed(self, event: RadioSet.Changed) -> None:
         self.exit(str(event.pressed.label))
 
 
-class Ork(App[None]):
+class Warrior(App):
+    # CSS = CSS_for_characters
+
+    def compose (self) -> ComposeResult:
+        yield Center(Label(warrior_logo))
+        yield Center(Label(warrior_health, id='heal'))
+        yield Center(Label(warrior_power, id='power'))
+        yield Center(Label(warrior_starting_energy, id='energy'))
+        yield Center(Label(warrior_starting_weapon, id='weapon'))
+        yield Center(Button.success('Start'))
+        yield Center(Button.error('Back'))   
+    
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        self.exit(str(event.button.label))
+
+
+class Vampire(App):
+    # CSS = CSS_for_characters
+
+    def compose (self) -> ComposeResult:
+        yield Center(Label(vampire_logo))
+        yield Center(Label(vampire_health, id='heal'))
+        yield Center(Label(vampire_power, id='power'))
+        yield Center(Label(vampire_starting_energy, id='energy'))
+        yield Center(Label(vampire_starting_weapon, id='weapon'))
+        yield Center(Button.success('Start'))
+        yield Center(Button.error('Back'))    
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        self.exit(str(event.button.label))    
+
+class Ork(App):
+    # CSS = CSS_for_characters
 
     def compose(self) -> ComposeResult:
-        yield Label(ork)
+        yield Center(Label(ork_logo))
+        yield Center(Label(ork_health, id='heal'))
+        yield Center(Label(ork_power, id='power'))
+        yield Center(Label(ork_starting_energy, id='energy'))
+        yield Center(Label(ork_starting_weapon, id='weapon'))
+        yield Center(Button.success('Start'))
+        yield Center(Button.error('Back')) 
 
-    def on_mount(self) -> None:
-        self.screen.styles.background = "black"
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        self.exit(str(event.button.label))  
+
+# class Witch(App):
+#     def compose(self) -> ComposeResult:
+#         yield Label(witch_logo)
+# class Elf(App):
+#     def compose(self) -> ComposeResult:
+#         yield Label(ork_logo)
+# class StartCharacterInfo(App):
+#     def compose(self) -> ComposeResult:
+#         yield Label(logo)
+#     def on_mount(self) -> None:
+#         self.screen.styles.background = "black"
 
 
 username  = InputName()
 username = username.run()
 
-character = CharacterSelection()
-selection = character.run()
-print(selection)
+character_list = CharacterSelection()
+selection = character_list.run()
 
-ork = Ork()
-ork = ork.run()
+
+match selection:
+    case 'Warrior':
+        character_mode = Warrior()
+        if character_mode.run() == 'Start':
+            import game_loop
+        else:
+            character_list.run()
+
+    case 'Vampire':
+        character_mode = Vampire()
+        if character_mode.run() == 'Start':
+            import game_loop  
+        else:
+            character_list.run()
+
+    case 'Ork':
+        character_mode = Ork()
+        if character_mode.run() == 'Start':
+            import game_loop
+        else:
+            character_list.run()
 
 
 
