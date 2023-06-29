@@ -4,7 +4,7 @@ from textual.containers import Center, VerticalScroll
 
 from game.character_logos import *
 from game.texts import *
-from game.name import get_random_name
+from game.names import get_random_name
 
 
 
@@ -65,7 +65,7 @@ class CharacterSelection(App[None]):
                 # yield RadioButton('Elf')
                 # yield RadioButton('Druid')
                 # yield RadioButton('Rogue')
-                
+
     def on_mount(self) -> None:
         self.screen.styles.background = "black"                
 
