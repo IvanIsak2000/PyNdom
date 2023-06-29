@@ -1,9 +1,12 @@
 from textual.app import App, ComposeResult
-from textual.widgets import Input, Label, RadioButton, RadioSet, Button, Header
+from textual.widgets import Label, RadioButton, RadioSet, Button, Header
 from textual.containers import Center, VerticalScroll
 
 from game.character_logos import *
 from game.texts import *
+from game.name import get_random_name
+
+
 
 CSS_for_characters = '''
 
@@ -24,19 +27,6 @@ CSS_for_characters = '''
         }
 
 '''
-
-class InputName(App):
-    def compose(self) -> ComposeResult:
-        yield Center(Label('Please write your name, stranger:'))
-        yield Input(placeholder=" ", id='name')
-        yield Center(Button('Save!', id='save'))
-
-    def on_mount(self) -> None:
-        self.screen.styles.background = "black"
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        self.exit(str(event.button.id))
-
 
 class CharacterSelection(App[None]):
     CSS = '''
@@ -61,7 +51,12 @@ class CharacterSelection(App[None]):
     '''
 
     def compose(self) -> ComposeResult:
+
+        name = get_random_name()
+        
+       
         with VerticalScroll():
+            yield Center(Label(f'Welcome {name}!\n'))
             with RadioSet():
                 yield RadioButton('Warrior')
                 yield RadioButton('Vampire')
@@ -70,6 +65,9 @@ class CharacterSelection(App[None]):
                 # yield RadioButton('Elf')
                 # yield RadioButton('Druid')
                 # yield RadioButton('Rogue')
+                
+    def on_mount(self) -> None:
+        self.screen.styles.background = "black"                
 
     def on_radio_set_changed(self, event: RadioSet.Changed) -> None:
         self.exit(str(event.pressed.label))
@@ -86,7 +84,10 @@ class Warrior(App):
         yield Center(Label(warrior_starting_weapon, id='weapon'))
         yield Center(Button.success('Start'))
         yield Center(Button.error('Back'))   
-    
+
+    def on_mount(self) -> None:
+        self.screen.styles.background = "black"
+
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.exit(str(event.button.label))
 
@@ -101,7 +102,10 @@ class Vampire(App):
         yield Center(Label(vampire_starting_energy, id='energy'))
         yield Center(Label(vampire_starting_weapon, id='weapon'))
         yield Center(Button.success('Start'))
-        yield Center(Button.error('Back'))    
+        yield Center(Button.error('Back'))   
+
+    def on_mount(self) -> None:
+        self.screen.styles.background = "black"       
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.exit(str(event.button.label))    
@@ -117,6 +121,9 @@ class Ork(App):
         yield Center(Label(ork_starting_weapon, id='weapon'))
         yield Center(Button.success('Start'))
         yield Center(Button.error('Back')) 
+
+    def on_mount(self) -> None:
+        self.screen.styles.background = "black"
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         self.exit(str(event.button.label))  
@@ -134,32 +141,29 @@ class Ork(App):
 #         self.screen.styles.background = "black"
 
 
-username  = InputName()
-username = username.run()
 
 character_list = CharacterSelection()
 selection = character_list.run()
-
 
 match selection:
     case 'Warrior':
         character_mode = Warrior()
         if character_mode.run() == 'Start':
-            import game_loop
+            import game.game_loop 
         else:
             character_list.run()
 
     case 'Vampire':
         character_mode = Vampire()
         if character_mode.run() == 'Start':
-            import game_loop  
+            import game.game_loop  
         else:
             character_list.run()
 
     case 'Ork':
         character_mode = Ork()
         if character_mode.run() == 'Start':
-            import game_loop
+            import game.game_loop 
         else:
             character_list.run()
 
