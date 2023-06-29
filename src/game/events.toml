@@ -1,0 +1,47 @@
+title = 'events fot game'
+
+[bad_events]
+[bad_events.1]
+'text' = 'Oh no! You were attacked by a band of robbers.'
+'result' = 'damage 10'
+
+[bad_events.2]
+'text' = "There's an orc up ahead!"
+'result' = 'damage 3'
+
+[bad_events.3]
+'text' = 'You notice two mutants up ahead.'
+'result' = 'damage 2'
+
+
+
+
+
+[good_events]
+[good_events.1]
+'text' = 'Suddenly you find a small bag of gold.'
+'result' = 'gold 5'
+
+[good_events.2]
+'text' = 'You were lucky enough to find a medium sack of gold.'
+'result'= 'gold 10'
+
+[good_events.3]
+'text' = "Hooray! It's a big sack of gold!"
+'result'= 'gold 20'
+
+
+
+
+[neutral_events]
+[neutral_events.1]
+'text' = "Whoa! It's just a rock! Nothing unusual."
+'result' = '-'
+
+[neutral_events.2]
+'text' = 'You see an ordinary dog.'
+'result' = '-'
+
+[neutral_events.3]
+'text' = 'Again, just a forest.'
+'result' = '-'
